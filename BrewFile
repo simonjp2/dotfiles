@@ -1,0 +1,16 @@
+tap "universal-ctags/universal-ctags"
+
+brew "cloc"
+brew "fzf"
+brew "universal-ctags", args: ["HEAD"]
+brew "git"
+brew "htop"
+brew "nvim"
+brew "shellcheck"
+brew "tldr"
+brew "tmux"
+brew "the_silver_searcher"
+brew "trash"
+brew "tree"
+brew "vim"
+brew "zsh"

@@ -1,0 +1,5 @@
+" Emmet - html snippets
+
+Plug 'mattn/emmet-vim'
+
+" vim:ft=vim

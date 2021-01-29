@@ -1,0 +1,6 @@
+" vim-test - Run your tests at the speed of thought
+
+Plug 'janko-m/vim-test'
+let test#strategy = "vtr"
+
+" vim:ft=vim

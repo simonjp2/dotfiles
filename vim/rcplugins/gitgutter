@@ -1,0 +1,5 @@
+" Git Gutter - show diff markings in sign column
+
+Plug 'airblade/vim-gitgutter'
+
+" vim:ft=vim

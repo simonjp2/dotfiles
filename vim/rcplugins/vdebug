@@ -1,0 +1,9 @@
+" vdebug - multi-language DBGP debugger for VIM
+
+Plug 'vim-vdebug/vdebug'
+" https://github.com/vim-vdebug/vdebug/issues/369
+let g:vdebug_features={
+            \ "extended_properties":1,
+            \}
+
+" vim:ft=vim

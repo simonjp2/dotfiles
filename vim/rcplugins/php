@@ -1,0 +1,5 @@
+" PHP - More up to date PHP filetype settings
+
+Plug 'stanangeloff/php.vim'
+
+" vim:ft=vim

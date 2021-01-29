@@ -1,0 +1,8 @@
+# Alias `g` for `git`
+# Any paramters are passed along to git, otherwise call `git status`
+
+if [[ "${#}" -gt 0 ]]; then
+    git "${@}"
+else
+    git status --short --branch
+fi

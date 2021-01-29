@@ -1,0 +1,342 @@
+" =============================================================================
+" Jason Simon .vimrc file
+" -----------------------------------------------------------------------------
+" inspired by 
+" - https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
+" =============================================================================
+
+set nocompatible                " Disable vi compatibility
+
+" Use ',' as leader key
+let mapleader = ' '
+let maplocalleader='\'
+
+function! s:SourceConfigFilesIn(directory)
+    let directory_splat = '~/.vim/' . a:directory . '/*'
+    for config_file in split(glob(directory_splat), '\n')
+        if filereadable(config_file)
+            execute 'source' config_file
+        endif
+    endfor
+endfunction
+
+if empty(glob(expand('~/.vim/autoload/plug.vim')))
+    echoerr "Vim-plug missing: https://github.com/junegunn/vim-plug"
+
+    finish
+endif
+
+call plug#begin('~/.vim/bundle')
+call s:SourceConfigFilesIn('rcplugins')
+call plug#end()
+
+
+" =============================================================================
+" Options
+" =============================================================================
+if has('autocmd')
+    filetype plugin indent on
+endif
+
+if has('syntax') && !exists('g:syntax_on')
+    syntax enable
+endif
+
+
+" Localize directories
+set directory+=~/.local/vim/swap//
+if has('path_extra')
+    setglobal tags^=tags   " set location of tags files
+    setglobal tags^=.tags
+endif
+
+
+" Use UTF-8 as default encoding
+if has ('multi_byte') && &encoding ==# 'latin1'
+    set encoding=utf-8 nobomb
+endif
+
+" Clear default 'comments' value, let the filetype handle it
+set comments=
+set nrformats-=octal    " Don't use octal when adding/subtracting numbers
+set virtualedit+=block  " Move beyond buffer text in visual block mode
+set updatetime=1000     " Wait 1 second before writing swap
+
+" --- PERFORMANCE / BUFFER ---
+set hidden              " Can put buffer to the background without writing
+                        "   to disk, will remember history/marks.
+set lazyredraw          " Don't update the screen while executing macros
+
+" --- HISTORY / FILE HANDLING ---
+set noautoread
+if &history < 1000
+    set history=1000
+endif
+if &tabpagemax < 50
+    set tabpagemax=50
+endif
+
+" --- KEYS ---
+set backspace+=eol              " Linebreaks
+set backspace+=indent           " Spaced from 'autoindent'
+set backspace+=start            " Start of current insertion
+if !has('nvim') && &ttimeoutlen == -1
+    set ttimeout
+    set ttimeoutlen=100 " How long to wait for key codes
+endif
+
+" --- search ---
+set incsearch                   " Show matches as I type
+set ignorecase                  " Use case insensitive search
+set smartcase                   " ...as long as there is no capital letters
+set wrapscan                    " Wrap around the end of the file
+set shortmess-=S                " Show number of results
+set hlsearch                    " highlight completed searches
+if 1
+    nohlsearch
+endif
+
+" <leader>/ to clear search highlight
+nnoremap <silent> <BS> :<C-U>nohlsearch<CR>
+vnoremap <silent> <BS>/ :<C-U>nohlsearch<CR>gv
+
+
+" --- sessions ---
+if has('mksession')
+    set sessionoptions-=localoptions    " Don't save buffer options/mappings
+    set sessionoptions-=options         " Don't save global options/mappings
+endif
+
+
+
+
+
+" =============================================================================
+" UI
+" =============================================================================
+
+
+if !has('nvim')
+    let &t_ZH="\e[3m"   " start italics mode
+    let &t_ZR="\e[23m"  " end italics mode
+endif
+
+" set termguicolors       " Enable 24-bit RGB color in TUI
+colorscheme nord
+" colorscheme dim
+if (colors_name ==? 'dim')
+    highlight GitGutterAdd ctermbg=none
+    highlight GitGutterChange ctermbg=none
+    highlight GitGutterDelete ctermbg=none
+    highlight GitGutterChangeDelete ctermbg=none
+    highlight SignColumn ctermbg=none
+
+    highlight Difftext ctermbg=12
+
+    highlight Comment cterm=italic
+    highlight Special ctermfg=4
+    highlight SpecialComment ctermfg=4 cterm=italic
+
+    highlight link phpDocTags SpecialComment
+    highlight link phpDocParam SpecialComment
+    highlight link phpDocIdentifier SpecialComment
+endif
+
+nnoremap <C-A> :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+    if !exists("*synstack")
+        return
+    endif
+    echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunction
+
+" --- UI SETTINGS ---
+set number                      " Enable line numbers
+set relativenumber              " Enable relative line numbers
+set laststatus=2
+set noruler                     " Show line
+set scrolloff=3                 " Keep N lines above/below current line
+set sidescrolloff=5             " Keep N lines to the left/right of cursor
+set display+=lastline
+set confirm                     " Prompt instead of rejecting risky operations
+set splitbelow                  " Split new window below
+set splitright                  " Split new window right
+
+" --- list chars ---
+" Define extra 'list' display characters
+set listchars+=tab:»-       " Tab characters
+set listchars+=trail:·      " Trailing spaces
+set listchars-=eol:$        " Remove eol character
+
+" --- command completion ---
+set wildmenu                " use wildmenu
+set wildmode=list:longest   " Tab press completes and lists
+set wildignore+=*/.git,*.DS_Store
+
+" --- autocomplete ---
+set complete-=i                 " Skip included files for completion
+set completeopt+=longest        " Insert longest common substring
+set completeopt+=menuone        " Show the menu even if only one match
+if has('path_extra')
+    set path+=**                " Search current directory's whole tree
+endif
+
+" --- folding ---
+if has('folding')
+    set foldlevelstart=99
+    set foldmethod=indent
+endif
+
+" --- file list ---
+let g:netrw_liststyle=0         " view directory one file per line; use i to cycle views
+let g:netrw_banner=0            " remove the directory banner; use I to toggle banner
+
+" --- diff ---
+set diffopt+=iwhite             " Ignore whitespace changes
+set diffopt+=filler             " Add vertical space to keep left and 
+                                " right aligned.
+
+
+
+" =============================================================================
+" INDENTATION AND TEXT-WRAP
+" =============================================================================
+
+set autoindent          " Use indent of previous line on new lines
+
+set expandtab           " Use spaces instead of tabs
+set shiftwidth=4        " Indent with 4 spaces
+set softtabstop=4       " Insert 4 spaces with tab key
+set smarttab            " At start of line <TAB> inserts shift width spaces,
+                        " <BS> deletes shift width spaces
+
+set formatoptions+=j    " Delete comment leaders when joining lines
+set formatoptions+=r    " Automatically insert comment leaders with <Enter>
+set formatoptions+=n    " Recognize numbered lists
+set formatoptions+=1    " Break line before one-letter word
+
+" as found in https://vimways.org/2018/formatting-lists-with-vim/
+set formatlistpat=^\\s*                     " Optional leading whitespace
+set formatlistpat+=[                        " Start character class
+set formatlistpat+=\\[({]\\?                " \|  Optionally match opening punctuation
+set formatlistpat+=\\(                      " \|  Start group
+set formatlistpat+=[0-9]\\+                 " \|  \|  Numbers
+set formatlistpat+=\\\|                     " \|  \|  or
+set formatlistpat+=[a-zA-Z]\\+              " \|  \|  Letters
+set formatlistpat+=\\)                      " \|  End group
+set formatlistpat+=[\\]:.)}                 " \|  Closing punctuation
+set formatlistpat+=]                        " End character class
+set formatlistpat+=\\s\\+                   " One or more spaces
+set formatlistpat+=\\\|                    " or
+set formatlistpat+=^\\s*[-–+o*•]\\s\\+      " Bullet points 
+
+set nowrap
+set linebreak           " Break lines at word boundaries
+set breakindent         " Indent wrapped lines
+set showbreak=...       " Prefix wrapped rows with three dots
+
+
+" =============================================================================
+" KEY MAPPINGS
+" =============================================================================
+
+" mapleader set at the top of the file to avoid conflicts
+
+
+" --- FIX/IMPROVE DEFAULT BEHAVIOR ---
+command! W w
+command! Wq wq
+command! Bd bd
+command! Ls ls
+
+" Split line (sister to [J]oin lines)
+" The normal use of S is covered by cc
+nnoremap S i<CR><esc>k
+
+" Move by screen line instead of file line
+nnoremap j gj
+nnoremap k gk
+
+" Exit insert mode with jj instead of <esc>
+inoremap jj <esc>
+inoremap <esc> <nop>
+
+" Quick access to Ex commands
+" nnoremap ; :
+" xnoremap ; :
+" nnoremap : ;
+" xnoremap : ;
+
+" Cycle through buffers
+nnoremap [b :bprevious<CR>
+nnoremap ]b :bnext<CR>
+nnoremap <leader>b :b#<CR>
+
+nnoremap <leader>ke :50Vexplore! 
+
+
+" --- Settings (s) keybindings ---
+
+" \ss toggles spell checking
+nnoremap <leader>ss :<C-U>setlocal spell! spell?<CR>
+
+" nnoremap <leader>sR :<C-U>source $MYVIMRC<CR>
+
+" ,sr toggle position display in bottom right
+nnoremap <leader>sr :<C-U>set ruler! ruler?<CR>
+if exists(':xnoremap')
+    xnoremap <leader>sr :<C-U>set ruler! ruler?<CR>gv
+endif
+
+" ,sl toggles showing tab and trailing whitespace
+nnoremap <leader>sl :<C-U>setlocal list! list?<CR>
+if exists(':xnoremap')
+    xnoremap <leader>sl :<C-U>setlocal list! list?<CR>gv
+endif
+
+" ,sw toggle word wrap
+nnoremap <leader>sw :<C-U>setlocal wrap! wrap?<CR>
+if exists(':xnoremap')
+    xnoremap <leader>sw :<C-U>setlocal wrap! wrap?<CR>gv
+endif
+
+" ,sn toggle numbers
+nnoremap <leader>sn :<C-U>setlocal number! relativenumber! number?<CR>
+
+" --- TERMINAL ---
+
+nnoremap <leader>t :Term<CR>
+tnoremap jk <C-\><C-n>
+
+" --- WINDOWS ---
+"  Zoom a vim window, <C-w> to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
+
+" Automatically rebalance windows on vim resize
+augroup vimrc
+    autocmd!
+    autocmd VimResized * :wincmd =
+augroup END
+
+" --- THE SILVER SEARCHER ---
+
+" The Silver Searcher
+if executable('ag')
+    " Use ag over grep
+    set grepprg=ag\ --vimgrep\ $*
+    set grepformat=%f:%l:%c:%m
+endif
+
+" search for word under cursor
+nnoremap <leader>f :silent! grep! "\b\s?<C-R><C-W>\b"<CR>:botright cwindow<CR>
+
+" grep for pattern and open in 'quick fix' window
+command! -nargs=+ -complete=file -bar Ag silent grep! <args>|execute 'botright cwindow'|redraw!
+
+" Start global project search
+nnoremap <C-F> :Ag<SPACE>
+
+
+" Reload config
+command! -nargs=0 Reload source $MYVIMRC

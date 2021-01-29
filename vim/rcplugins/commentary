@@ -1,0 +1,5 @@
+" Commentary - Comment / Uncomment via text operator w/ text object
+
+Plug 'tpope/vim-commentary'
+
+" vim:ft=vim

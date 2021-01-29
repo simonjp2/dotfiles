@@ -1,0 +1,48 @@
+[user]
+	name = Jason Simon
+	email = simonjp2@gmail.com
+[alias]
+    can = commit --amend --no-edit
+    glog = log -E -i --grep
+    pb = checkout -
+    sl = log --oneline --graph
+    sla = log --oneline --decorate --graph --all
+    uncommit = reset --soft HEAD^
+    wh = !git for-each-ref --sort=committerdate --format=\"%(refname)\" refs/heads | xargs git show -s --color --format=\"%C(yellow)%cr %Creset%an %C(auto)%d\"
+[init]
+    templateDir = ~/.dotfiles/git/gittemplates
+    defaultBranch = master
+[commit]
+    template=~/.dotfiles/git/gitmessage.txt
+[core]
+    pager = less -FRX
+    excludesfile = ~/.dotfiles/git/gitignore
+    editor = nvim
+[fetch]
+    prune = true
+[merge]
+    tool = nvimdiff
+[color]
+    # Color everything
+    ui = auto
+[color "branch"]
+    # Color syntax: <foreground> <background>
+    # So "normal red" is normal foreground, red background
+    # BUT bold is a modifier, "bold green red" means "bold green" foreground,
+    # red background
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-color
+    current = green
+    remote = red
+[color "status"]
+    # Options:
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-colorstatusltslotgt
+    # changed - changed but not added in index
+    # added/updated - added to index but not committed
+    # untracked - not tracked by git
+    added = yellow
+    changed = green
+    untracked = cyan
+[color "diff"]
+    # https://git-scm.com/docs/git-config#Documentation/git-config.txt-colordiff
+    meta = yellow bold
+    frag = cyan

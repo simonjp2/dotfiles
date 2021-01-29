@@ -1,0 +1,9 @@
+# Vim only sources zshenv (this file), not zshrc
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+export ZDOTDIR="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+
+# Add my custom commands
+export PATH="$HOME/.dotfiles/bin:$PATH"

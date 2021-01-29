@@ -1,0 +1,10 @@
+.DS_Store
+.vscode/
+/tags
+/.tags
+
+# VIM workspaces
+*.workspace
+
+# the silver searcher
+.ignore

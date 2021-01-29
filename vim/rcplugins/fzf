@@ -1,0 +1,7 @@
+" fzf - the fuzzy finder of all things
+
+Plug 'junegunn/fzf', {'do': {->fzf#install()}}
+let g:fzf_layout = {'down': '60%'}
+nnoremap <C-P> :FZF --color=16<CR>
+
+" vim:ft=vim
