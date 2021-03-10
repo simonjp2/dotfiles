@@ -1,12 +1,15 @@
 [user]
-	name = Jason Simon
-	email = simonjp2@gmail.com
+    name = Jason Simon
+    email = simonjp2@gmail.com
 [alias]
     can = commit --amend --no-edit
+    dup = !git checkout develop && git fetch origin && git sl develop..origin/develop && echo && git merge --quiet && git checkout -
     glog = log -E -i --grep
+    mup = !git checkout master && git fetch origin && git sl master..origin/master && echo && git merge --quiet && git checkout -
     pb = checkout -
     sl = log --oneline --graph
     sla = log --oneline --decorate --graph --all
+    sld = log --graph --format=\"%C(auto)%h%d %C(cyan)(%an - %ar)%C(reset) %s\"
     uncommit = reset --soft HEAD^
     wh = !git for-each-ref --sort=committerdate --format=\"%(refname)\" refs/heads | xargs git show -s --color --format=\"%C(yellow)%cr %Creset%an %C(auto)%d\"
 [init]
@@ -22,6 +25,8 @@
     prune = true
 [merge]
     tool = nvimdiff
+[pull]
+    ff = only
 [color]
     # Color everything
     ui = auto
