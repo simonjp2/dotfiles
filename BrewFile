@@ -1,10 +1,13 @@
 tap "universal-ctags/universal-ctags"
 
 brew "cloc"
+brew "dnsmasq"
 brew "fzf"
 brew "git"
 brew "htop"
-brew "nvim"
+brew "httpie"
+brew "nvim", args:["HEAD"]
+brew "python"
 brew "shellcheck"
 brew "the_silver_searcher"
 brew "tldr"

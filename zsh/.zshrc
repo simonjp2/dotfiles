@@ -38,3 +38,4 @@ unset config_files
 
 # Add my custom commands
 export PATH="$HOME/.dotfiles/bin:$PATH"
+export PATH="/usr/local/opt/python@3.9/libexec/bin:$PATH"
