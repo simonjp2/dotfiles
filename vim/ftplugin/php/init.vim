@@ -8,7 +8,6 @@ if exists('b:did_ftplugin')
 endif
 
 
-
 " =============================================================================
 " Options
 " =============================================================================
@@ -18,6 +17,13 @@ setlocal list                               " Show 'hidden' characters
 setlocal suffixesadd+=.php
 let b:undo_ftplugin = '|setlocal comments< list< suffixesadd<'
 
+set shiftround
+set noexpandtab           " Use tabs
+set shiftwidth=4        " Indent with 4 spaces
+set softtabstop=4       " Insert 4 spaces with tab key
+set tabstop=4
+set smarttab            " At start of line <TAB> inserts shift width spaces,
+                        " <BS> deletes shift width spaces
 
 
 " =============================================================================
@@ -27,7 +33,6 @@ setlocal nowrap                             " Don't wrap lines
 setlocal textwidth=80                       " Set textwidth
 setlocal colorcolumn=+1,120                 " Set colorcolumn for 81 and 120
 let b:undo_ftplugin ='|setlocal wrap< textwidth< colorcolumn<'
-
 
 
 " =============================================================================
