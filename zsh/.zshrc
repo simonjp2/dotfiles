@@ -1,3 +1,7 @@
+# OSX includes /etc/zshrc which unconditionally overwrites HISTFILE so we set
+# it back here
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/history"
+
 # Stash work aliases in ~/.localrc.  This means they'll stay out of your
 # main dotfiles repository, but you'll have access to them.
 if [ -f "${HOME}/.config/.localrc" ]; then
@@ -31,3 +35,6 @@ unset config_files
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Add my custom commands
+export PATH="$HOME/.dotfiles/bin:$PATH"

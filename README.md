@@ -17,8 +17,8 @@ ZSH
 ---
 I use zsh as my shell, with a custom configuration and prompt.
 ```sh
-$ ln -sf zsh/.zshrc ~/.zshrc
 $ mkdir -p ~/.config
+$ ln -sf ~/.dotfiles/zsh/zshenv ~/.zshenv
 $ ln -sfF ~/.dotfiles/zsh ~/.config
 ```
 

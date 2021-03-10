@@ -7,3 +7,5 @@ alias ll='ls -lhFG'
 alias rm='rm -iv'
 alias cp='cp -iv'
 alias grep='grep --color=auto -E'
+
+alias brewup='brew update && brew bundle'

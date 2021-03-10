@@ -1,6 +1,6 @@
 # Command history configuration
 if [ -z "$HISTFILE" ]; then
-    HISTFILE="${XDG_CACHE_HOME}"/zsh_history
+    HISTFILE="${XDG_CACHE_HOME}/history"
 fi
 
 # see https://www.soberkoder.com/better-zsh-history/
