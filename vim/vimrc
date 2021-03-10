@@ -30,7 +30,6 @@ call plug#begin('~/.vim/bundle')
 call s:SourceConfigFilesIn('rcplugins')
 call plug#end()
 
-
 " =============================================================================
 " Options
 " =============================================================================
@@ -108,7 +107,8 @@ if has('mksession')
 endif
 
 
-
+" --- EOL --
+set nofixendofline " preserve end of line
 
 
 " =============================================================================
