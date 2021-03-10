@@ -8,7 +8,7 @@ brew "htop"
 brew "httpd"
 brew "httpie"
 brew "node"
-brew "nvim", args:["HEAD"]
+brew "nvim"
 brew "php@7.3"
 brew "python"
 brew "shellcheck"

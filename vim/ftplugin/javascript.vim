@@ -41,8 +41,8 @@ let b:undo_ftplugin ='|setlocal wrap< textwidth< colorcolumn<'
 " =============================================================================
 " KEY MAPPINGS
 " =============================================================================
-inoremap <buffer> <localleader><Tab> <C-X><C-N>
-let b:undo_ftplugin .= '|iunmap <buffer> <localleader><Tab>'
+" inoremap <buffer> <localleader><Tab> <C-X><C-N>
+" let b:undo_ftplugin .= '|iunmap <buffer> <localleader><Tab>'
 
 
 

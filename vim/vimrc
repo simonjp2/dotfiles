@@ -43,7 +43,7 @@ endif
 
 
 " Localize directories
-set directory+=$XDG_DATA_HOME/vim/swqp//
+set directory+=$XDG_DATA_HOME/vim/swap//
 if has('path_extra')
     setglobal tags^=tags   " set location of tags files
     setglobal tags^=.tags
@@ -122,7 +122,7 @@ if !has('nvim')
 endif
 
 " set termguicolors       " Enable 24-bit RGB color in TUI
-colorscheme nord
+colorscheme nord-lsp
 " colorscheme dim
 if (colors_name ==? 'dim')
     highlight GitGutterAdd ctermbg=none
@@ -321,7 +321,7 @@ augroup END
 " The Silver Searcher
 if executable('ag')
     " Use ag over grep
-    set grepprg=ag\ --no-group\ --nocolor\ --column\ $*
+    set grepprg=ag\ --nogroup\ --nocolor\ --column\ $*
     set grepformat=%f:%l:%c:%m
 endif
 
@@ -337,3 +337,9 @@ nnoremap <C-F> :Ag<SPACE>
 
 " Reload config
 command! -nargs=0 Reload source $MYVIMRC
+
+
+if has('nvim')
+    lua require('lspconfig').intelephense.setup{on_attach=require'completion'.on_attach}
+    lua require('lspconfig').tsserver.setup{}
+endif
