@@ -1,6 +1,7 @@
 " Fugitive - Vim meets git. Gstatus, Gdiff, etc.
 
 Plug 'tpope/vim-fugitive'
-nnoremap <leader>kg :Gstatus<CR>
+nnoremap <leader>gg :Gstatus<CR>
+nnoremap <leader>gsl :Gclog! -5<CR>
 
 " vim:ft=vim

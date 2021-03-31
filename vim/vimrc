@@ -248,6 +248,7 @@ command! W w
 command! Wq wq
 command! Bd bd
 command! Ls ls
+command! Qa qa
 
 " Split line (sister to [J]oin lines)
 " The normal use of S is covered by cc
@@ -303,13 +304,9 @@ endif
 " ,sn toggle numbers
 nnoremap <leader>sn :<C-U>setlocal number! relativenumber! number?<CR>
 
-" --- TERMINAL ---
-
-nnoremap <leader>t :Term<CR>
-tnoremap jk <C-\><C-n>
 
 " --- WINDOWS ---
-"  Zoom a vim window, <C-w> to re-balance
+"  Zoom a vim window, <leader>= to re-balance
 nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
 
@@ -318,6 +315,7 @@ augroup vimrc
     autocmd!
     autocmd VimResized * :wincmd =
 augroup END
+
 
 " --- THE SILVER SEARCHER ---
 
