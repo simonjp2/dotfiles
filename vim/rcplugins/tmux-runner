@@ -2,4 +2,8 @@
 
 Plug 'christoomey/vim-tmux-runner'
 
+let g:vtr_filetype_runner_overrides = {
+            \ 'php': 'php -f {file}'
+            \}
+
 " vim:ft=vim

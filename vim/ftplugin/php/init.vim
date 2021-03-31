@@ -24,7 +24,7 @@ set softtabstop=4       " Insert 4 spaces with tab key
 set tabstop=4
 set smarttab            " At start of line <TAB> inserts shift width spaces,
                         " <BS> deletes shift width spaces
-
+let b:undo_ftplugin .= '|setlocal shiftround< noexpandtab< shiftwidth< softtabstop< tabstop< smarttab<'
 
 " =============================================================================
 " INDENTATION AND TEXT-WRAP
@@ -32,7 +32,7 @@ set smarttab            " At start of line <TAB> inserts shift width spaces,
 setlocal nowrap                             " Don't wrap lines
 setlocal textwidth=80                       " Set textwidth
 setlocal colorcolumn=+1,120                 " Set colorcolumn for 81 and 120
-let b:undo_ftplugin ='|setlocal wrap< textwidth< colorcolumn<'
+let b:undo_ftplugin .='|setlocal wrap< textwidth< colorcolumn<'
 
 
 " =============================================================================
@@ -98,3 +98,8 @@ nnoremap <buffer> <localleader>tf o/**<CR>@test<CR>/<esc>V2k=2jopublic function 
 inoremap <buffer> <localleader>tf /**<CR>@test<CR>/<esc>V2k=2jopublic function ()<CR>{<CR><CR>}<esc>3kf(i
 let b:undo_ftplugin .= '|nunmap <buffer> <localleader>tf'
             \ . '|iunmap <buffer> <localleader>tf'
+
+
+function FileAction_NameClass()
+    execute "normal! ca{\<C-R>=expand('%:t:r')\<cr>\<esc>b"
+endfunction
