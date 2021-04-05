@@ -56,4 +56,10 @@ function Angular_Format_Controller()
     execute "normal! gg=G"
 endfunction
 nnoremap <buffer> <localleader>afc :call Angular_Format_Controller()<CR>
-let b:undo_ftplugin .= '|iunmap <buffer> <localleader><afc>'
+let b:undo_ftplugin .= '|nunmap <buffer> <localleader>afc'
+
+function Angular_Format_Scope_Fn()
+    execute "normal! ^df.ifunction \<ESC>eldt("
+endfunction
+nnoremap <buffer> <localleader>aff :call Angular_Format_Scope_Fn()<CR>
+let b:undo_ftplugin .= '|nunmap <buffer> <localleader>aff'
