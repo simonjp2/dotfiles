@@ -280,8 +280,7 @@ nnoremap <leader>ke :50Vexplore!
 
 " \ss toggles spell checking
 nnoremap <leader>ss :<C-U>setlocal spell! spell?<CR>
-
-" nnoremap <leader>sR :<C-U>source $MYVIMRC<CR>
+nnoremap <leader>scc :<C-U>setlocal cursorcolumn! cursorcolumn?<CR>
 
 " ,sr toggle position display in bottom right
 nnoremap <leader>sr :<C-U>set ruler! ruler?<CR>
