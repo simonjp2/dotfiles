@@ -2,6 +2,17 @@
 
 Plug 'tpope/vim-fugitive'
 nnoremap <leader>gg :Gstatus<CR>
-nnoremap <leader>gsl :Gclog! -5<CR>
+nnoremap <leader>gw :Gwrite<CR>
+
+" Show git log useful for rebasing
+" n - determine the number of commits to include (default 5)
+" %H commit hash
+" %s subject line (the first line of commit)
+function Git_Short_Log(n = 5)
+    execute "normal! :G --paginate log --format=\"%H %s\" -" . a:n . "\<CR>"
+endfunction
+command! -nargs=? Gsl :call Git_Short_Log(<args>)
+nnoremap <leader>gsl :GSL<CR>
+
 
 " vim:ft=vim
