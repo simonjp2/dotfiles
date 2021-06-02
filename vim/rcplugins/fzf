@@ -3,13 +3,22 @@
 Plug 'junegunn/fzf', {'do': {->fzf#install()}}
 let g:fzf_layout = {'down': '60%'}
 
-noremap <C-P> :FZF --color=16<CR>
+function Search_All()
+    execute "FZF --color=16"
+endfunction
+noremap <leader>P :call Search_All()<CR>
 
 " fuzzy find git files
 " fzf#wrap() uses global options such as g:fzf_layout with our custom fzf#run() calls
-nnoremap <C-G> :call fzf#run(fzf#wrap({'source': 'git ls-files'}))<CR>
+function Search_Git()
+    execute "call fzf#run(fzf#wrap({'source': 'git ls-files', 'options': ['--multi']}))"
+endfunction
+nnoremap <leader>p :call Search_Git()<CR>
 
 " fuzzy find open buffers
-nnoremap <C-B> :call fzf#run(fzf#wrap({'source':map(getbufinfo({'buflisted':1}), {_,val -> val.name})}))<cr>
+function Search_Buffers()
+    execute "call fzf#run(fzf#wrap({'source':map(getbufinfo({'buflisted':1}), {_,val -> val.name}), 'options': ['--multi']}))"
+endfunction
+nnoremap <leader>ll :call Search_Buffers()<CR>
 
 " vim:ft=vim
