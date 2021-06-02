@@ -12,7 +12,7 @@ function Git_Short_Log(n = 5)
     execute "normal! :G --paginate log --format=\"%H %s\" -" . a:n . "\<CR>"
 endfunction
 command! -nargs=? Gsl :call Git_Short_Log(<args>)
-nnoremap <leader>gsl :GSL<CR>
+nnoremap <leader>gsl :Gsl<CR>
 
 
 " vim:ft=vim
