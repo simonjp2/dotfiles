@@ -74,16 +74,8 @@ iabbrev prsf private static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
 
 
 " protected  method snippet
-nnoremap <buffer> <localleader>pf iprotected function ()<CR>{<CR><CR>}<esc>jk3k2Wi
-inoremap <buffer> <localleader>pf protected function ()<CR>{<CR><CR>}<esc>jk3k2Wi
-let b:undo_ftplugin .= '|nunmap <buffer> <localleader>pf'
-            \ . '|iunmap <buffer> <localleader>pf'
-
-" protected static method snippet
-nnoremap <buffer> <localleader>psf iprotected static function ()<CR>{<CR><CR>}<esc>jk3k3Wi
-inoremap <buffer> <localleader>psf protected static function ()<CR>{<CR><CR>}<esc>jk3k3Wi
-let b:undo_ftplugin .= '|nunmap <buffer> <localleader>psf'
-            \ . '|iunmap <buffer> <localleader>psf'
+iabbrev pf protected function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
+iabbrev psf protected static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
 
 " Class snippet
 nnoremap <buffer> <localleader>cl i<?php<CR><CR>declare(strict_types = 1);<CR><CR>class {2:ChildClass} extends {3:ParentClass} implements {4:Interface}<CR>{<CR>{5:body}<esc>^i	<esc>o}<esc>/\d:<CR>
