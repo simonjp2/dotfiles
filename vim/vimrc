@@ -8,7 +8,7 @@
 set nocompatible                " Disable vi compatibility
 
 " Use ',' as leader key
-let mapleader = ' '
+let mapleader = ','
 let maplocalleader='\'
 
 function! s:SourceConfigFilesIn(directory)
@@ -43,7 +43,7 @@ endif
 
 
 " Localize directories
-set directory+=~/.local/vim/swap//
+set directory+=$XDG_DATA_HOME/vim/swqp//
 if has('path_extra')
     setglobal tags^=tags   " set location of tags files
     setglobal tags^=.tags
@@ -321,7 +321,7 @@ augroup END
 " The Silver Searcher
 if executable('ag')
     " Use ag over grep
-    set grepprg=ag\ --vimgrep\ $*
+    set grepprg=ag\ --no-group\ --nocolor\ --column\ $*
     set grepformat=%f:%l:%c:%m
 endif
 
