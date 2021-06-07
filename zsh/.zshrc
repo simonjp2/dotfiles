@@ -37,4 +37,10 @@ unset config_files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Add my custom commands
-export PATH="$PATH:$HOME/.dotfiles/bin"
+export PATH="$HOME/.dotfiles/bin:$PATH"
+
+
+BREW_PREFIX=$(brew --prefix)
+
+# PHP
+export PATH="${BREW_PREFIX}/opt/php@7.3/bin:$PATH"
