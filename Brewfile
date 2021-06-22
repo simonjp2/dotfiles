@@ -1,5 +1,6 @@
 tap "universal-ctags/universal-ctags"
 
+brew "bat"
 brew "dnsmasq"
 brew "fzf"
 brew "git"
