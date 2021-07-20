@@ -58,7 +58,7 @@ defaults write com.apple.finder ShowStatusBar -bool false
 
 # Set keyboard repeat and delay
 defaults write NSGlobalDomain KeyRepeat -int 2
-defaults write NSGlobalDomain InitialKeyRepeat -int 10
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
 
 # Trackpad: set fast tracking speed
 defaults write NSGlobalDomain com.apple.trackpad.scaling -float 3
