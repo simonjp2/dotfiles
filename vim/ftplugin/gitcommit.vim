@@ -17,7 +17,6 @@ let b:undo_ftplugin = 'setlocal spell<'
 " =============================================================================
 " INDENTATION AND TEXT-WRAP
 " =============================================================================
-setlocal textwidth=72       " Wrap text at 72 characters
 setlocal colorcolumn=+1     " Set visual column width at textwidth+1
-setlocal colorcolumn+=51    " and 51
+setlocal colorcolumn+=71    " and 71
 let b:undo_ftplugin .= '|setlocal textwidth< colorcolumn<'
