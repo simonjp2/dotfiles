@@ -1,0 +1,6 @@
+" Vim-javascript
+" Vastly improved javascript indentation & syntax support
+
+Plug 'pangloss/vim-javascript'
+
+" vim:ft=vim

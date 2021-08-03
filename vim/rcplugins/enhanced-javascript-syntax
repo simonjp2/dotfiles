@@ -1,5 +1,0 @@
-" Enhanced Javascript Syntax
-
-Plug 'jelera/vim-javascript-syntax'
-
-" vim:ft=vim
