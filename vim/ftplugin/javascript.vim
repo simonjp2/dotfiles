@@ -51,7 +51,7 @@ function Angular_Format_Controller()
     execute "normal! i(function() {\<CR>\<ESC>f(%0Di})();\<ESC>gg"
     execute "normal! /App\<CR>dt.iangular\<CR>.module('app')\<CR>\<ESC>"
     execute "normal! f'yi'/function\<CR>ewPa \<ESC>"
-    execute "normal! ?controller\<CR>f'yi'f[Pa);\<CR>\<CR>\<ESC>"
+    execute "normal! ?\\(controller\\|factory\\)\<CR>f'yi'f[Pa);\<CR>\<CR>\<ESC>"
     execute "normal! pa.$inject = \<ESC>$xa];\<ESC>0o\<ESC>"
     execute "normal! gg=G"
 endfunction
