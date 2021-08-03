@@ -1,6 +1,0 @@
-" javascript-libraries-syntax - Syntax file for JavaScript libraries
-
-Plug 'othree/javascript-libraries-syntax.vim'
-let g:used_javascript_libs = 'jquery,underscore,angularjs'
-
-" vim:ft=vim
