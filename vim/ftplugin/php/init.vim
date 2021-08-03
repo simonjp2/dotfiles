@@ -15,7 +15,8 @@ endif
 setlocal comments=sr:/*,mb:*,ex:*/,://      " Set comment formats
 setlocal list                               " Show 'hidden' characters
 setlocal suffixesadd+=.php
-let b:undo_ftplugin = '|setlocal comments< list< suffixesadd<'
+setlocal iskeyword+=$
+let b:undo_ftplugin = '|setlocal comments< list< suffixesadd< iskeyword<'
 
 set shiftround
 set noexpandtab           " Use tabs
