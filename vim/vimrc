@@ -241,7 +241,6 @@ nnoremap k gk
 " Exit insert mode with jk/kj instead of <esc>
 inoremap jk <esc>
 inoremap kj <esc>
-inoremap <esc> <nop>
 
 " Quick access to Ex commands
 " nnoremap ; :
@@ -307,7 +306,7 @@ if executable('ag')
 endif
 
 " search for word under cursor
-nnoremap <leader>f :silent! grep! "\b\s?<C-R><C-W>\b"<CR>:botright cwindow<CR>
+nnoremap <leader>F :silent! grep! "\b\s?<C-R><C-W>\b"<CR>:botright cwindow<CR>
 
 " grep for pattern and open in 'quick fix' window
 command! -nargs=+ -complete=file -bar Ag silent grep! <args>|execute 'botright cwindow'|redraw!
