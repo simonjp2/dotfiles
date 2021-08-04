@@ -1,0 +1,160 @@
+#!/usr/bin/env bash
+
+# Exit on error. Append "|| true" if you expect an error
+set -o errexit 
+# Do not allow use of undefined vars. Use ${VAR:-} to use an undefined VAR
+set -o nounset
+# Catch the error in  piped commands
+set -o pipefail
+
+if [[ "${TRACE:-}" ]]; then
+    #Turn on traces, useful while debugging
+    set -o xtrace
+fi
+
+__red="\e[31m"
+__green="\e[32m"
+__yellow="\e[33m"
+__uncolor="\e[0m"
+
+function flow {
+    local branch_type="${1:-}"
+    local action="${2:-}"
+    local name="${3:-}"
+
+    case "${action}" in 
+        start)
+            createBranch "${branch_type}" "${name}"
+            ;;
+        finish)
+            if [[ $(git status --porcelain=v1 --untracked-files=no | wc -l) -gt 0 ]]; then
+                printf "%bI can't finish your branch because changes exist!\n" "${__red}"
+                printf "Please stash your changes or commit them first.%b\n\n" "${__uncolor}"
+                exit 1;
+            fi
+            finishBranch "${branch_type}" "${name}"
+            ;;
+        *)
+            printf "%bUnknown action \"%s\".%b\n\n" "${__red}" "${action}" "${__uncolor}"
+            printf "%bMaybe you meant:\n" "${__yellow}"
+            printf "\tgit flow %s start|finish %s%b\n\n" "${branch_type}" "${action}" "${__uncolor}"
+            exit 1
+    esac
+}
+
+function getBranchName {
+    local branch_type="${1:-}"
+    local name="${2:-}"
+
+    echo "${branch_type}/${name}"
+}
+
+function createBranch {
+    local branch_type="${1}"
+    local name="${2}"
+    local branch_name
+    branch_name="$(getBranchName "${branch_type}" "${name}")"
+
+    case "${branch_type}" in
+        hotfix)
+            createHotfix "${branch_name}"
+            ;;
+        feature)
+            echo "creating new branch: ${branch_name}"
+            ;;
+        *)
+            printf "%bUnknown branch type \"%s\".%b\n\n" "${__red}" "${branch_type}" "${__uncolor}"
+            printf "%bMaybe you meant:\n" "${__yellow}"
+            printf "\tgit flow hotfix|feature start %s%b\n\n" "${name}" "${__uncolor}"
+            exit 1
+            ;;
+    esac
+}
+
+function createHotfix {
+    local branch_name="${1}"
+    local defaultBranch
+    defaultBranch=$(getDefaultBranch)
+
+    printf "%bCreated branch %s from %s.%b\n" "${__green}" "${branch_name}" "${defaultBranch}" "${__uncolor}"
+    printf "%bSwitched to branch %s%b.\n\n" "${__green}" "${branch_name}" "${__uncolor}"
+    git switch --quiet --create "${branch_name}" "${defaultBranch}"
+}
+
+function getDefaultBranch {
+    local defaultBranch
+    defaultBranch="$(git config init.defaultBranch || echo "")"
+    defaultBranch="${defaultBranch:-"main"}"
+
+    if ! git branch | grep -q "${defaultBranch}" || [[ -z ${defaultBranch} ]]; then
+        printf "${__red}I couldn't find the production branch \"%s\".${__uncolor}\n\n" "${defaultBranch}" 1>&2
+        printf "${__yellow}If \"%s\" is not your production branch, you can specify the production branch in your git config:\n" "${defaultBranch}" \
+        | fold -s -w 80 1>&2
+        printf "\tgit config init.defaultBranch \"%s\"${__uncolor}\n\n" "<YOUR_PRODUCTION_BRANCH_NAME>" 1>&2
+        exit 1
+    fi
+
+    echo "${defaultBranch}"
+}
+
+function finishBranch {
+    local branch_type="${1}"
+    local name="${2}"
+    local branch_name
+    branch_name="$(getBranchName "${branch_type}" "${name}")"
+
+    case "${branch_type}" in
+        hotfix)
+            finishHotfix "${branch_name}"
+            ;;
+        feature)
+            echo "finish feature branch ${branch_name}"
+            ;;
+        *)
+            printf "%bUnknown branch type \"%b\".${__uncolor}\n\n" "${__red}" "${branch_type}"
+            printf "%bMaybe you meant:\n" "${__yellow}"
+            printf "\tgit flow %s finish %s%b\n\n" "hotfix|feature" "${name}" "${__uncolor}"
+            exit 1
+            ;;
+    esac
+}
+
+function finishHotfix {
+    local branch_name=${1}
+    local current_branch
+    current_branch=$(git rev-parse --abbrev-ref HEAD)
+    local defaultBranch
+    defaultBranch=$(getDefaultBranch)
+
+    if [[ "${current_branch}" != "${defaultBranch}" ]]; then
+        git switch "${defaultBranch}"
+    fi
+
+    git merge --no-ff "${branch_name}"
+    echo
+    echo
+
+    git tag "${branch_name##*/}"
+    printf "%bAdded tag ${branch_name##*/}.\n\n%b" "${__green}" "${__uncolor}"
+
+    git switch develop
+    git merge --no-ff "${branch_name}"
+    echo
+    echo
+
+    git branch -d "${branch_name}"
+    printf "%bDeleted branch ${branch_name}.\n\n%b" "${__green}" "${__uncolor}"
+
+    printf "%bFinished local %s! 🤓\n\n%b" "${__green}" "${branch_name}" "${__uncolor}"
+    printf "%bTo share your work:\n" "${__yellow}"
+    printf "\tgit switch develop\n"
+    printf "\tgit push\n"
+    printf "\tgit switch %s\n" "${defaultBranch}"
+    printf "\tgit push\n"
+    printf "\tgit push --tags%b\n\n" "${__uncolor}"
+
+    printf "%bTo unmerge:\n" "${__yellow}"
+    printf "\tgit reset --hard HEAD~1%b\n\n" "${__uncolor}"
+}
+
+flow "${@}"
