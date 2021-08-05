@@ -54,13 +54,14 @@ function createBranch {
     local name="${2}"
     local branch_name
     branch_name="$(getBranchName "${branch_type}" "${name}")"
+    local base_branch
 
     case "${branch_type}" in
         hotfix)
-            createHotfix "${branch_name}"
+            base_branch="$(getBaseHotfixBranch)"
             ;;
         feature)
-            echo "creating new branch: ${branch_name}"
+            base_branch="$(getBaseFeatureBranch)"
             ;;
         *)
             printf "%bUnknown branch type \"%s\".%b\n\n" "${__red}" "${branch_type}" "${__uncolor}"
@@ -69,32 +70,47 @@ function createBranch {
             exit 1
             ;;
     esac
-}
 
-function createHotfix {
-    local branch_name="${1}"
-    local defaultBranch
-    defaultBranch=$(getDefaultBranch)
-
-    printf "%bCreated branch %s from %s.%b\n" "${__green}" "${branch_name}" "${defaultBranch}" "${__uncolor}"
+    printf "%bCreated branch %s from %s.%b\n" "${__green}" "${branch_name}" "${base_branch}" "${__uncolor}"
     printf "%bSwitched to branch %s%b.\n\n" "${__green}" "${branch_name}" "${__uncolor}"
-    git switch --quiet --create "${branch_name}" "${defaultBranch}"
+    git switch --quiet --create "${branch_name}" "${base_branch}"
 }
 
-function getDefaultBranch {
-    local defaultBranch
-    defaultBranch="$(git config init.defaultBranch || echo "")"
-    defaultBranch="${defaultBranch:-"main"}"
+function getBaseHotfixBranch {
+    local base_branch
+    base_branch="$(git config init.defaultBranch || echo "")"
+    base_branch="${base_branch:-"main"}"
 
-    if ! git branch | grep -q "${defaultBranch}" || [[ -z ${defaultBranch} ]]; then
-        printf "${__red}I couldn't find the production branch \"%s\".${__uncolor}\n\n" "${defaultBranch}" 1>&2
-        printf "${__yellow}If \"%s\" is not your production branch, you can specify the production branch in your git config:\n" "${defaultBranch}" \
+    if ! git branch | grep --quiet "${base_branch}" || [[ -z ${base_branch} ]]; then
+        printf "${__red}I couldn't find the production branch \"%s\".${__uncolor}\n\n" "${base_branch}" 1>&2
+        printf "${__yellow}If \"%s\" is not your production branch, you can specify the production branch in your git config:\n" "${base_branch}" \
         | fold -s -w 80 1>&2
-        printf "\tgit config init.defaultBranch \"%s\"${__uncolor}\n\n" "<YOUR_PRODUCTION_BRANCH_NAME>" 1>&2
+        printf "\tgit config init.base_branch \"%s\"${__uncolor}\n\n" "<YOUR_PRODUCTION_BRANCH_NAME>" 1>&2
         exit 1
     fi
 
-    echo "${defaultBranch}"
+    echo "${base_branch}"
+}
+
+function getBaseFeatureBranch {
+    local base_branch="develop"
+
+    if ! git branch | grep --quiet "${base_branch}"; then
+        printf "%bI couldn't find the development branch \"%s\", from which to base your feature.%b\n\n" "${__red}" "${base_branch}" "${__uncolor}" \
+            | fold -s -w 80 >&2
+
+        printf "%bIf you already have a remote branch %s, you can create a local one with:\n" "${__yellow}" "${base_branch}"  \
+            | fold -s -w 80 >&2
+        printf "\tgit switch --create %s --track origin/%s\n\n" "${base_branch}" "${base_branch}" >&2
+
+        printf "If you need to create a remote branch %s:\n" "${base_branch}" >&2
+        printf "\tgit switch --create %s origin/%s\n" "${base_branch}" "$(getBaseHotfixBranch)" >&2
+        printf "\tgit push origin %s%b\n\n" "${base_branch}" "${__yellow}" >&2
+
+        exit 1
+    fi
+
+    echo "${base_branch}"
 }
 
 function finishBranch {
@@ -124,7 +140,7 @@ function finishHotfix {
     local current_branch
     current_branch=$(git rev-parse --abbrev-ref HEAD)
     local defaultBranch
-    defaultBranch=$(getDefaultBranch)
+    defaultBranch=$(getBaseHotfixBranch)
 
     if [[ "${current_branch}" != "${defaultBranch}" ]]; then
         git switch "${defaultBranch}"
