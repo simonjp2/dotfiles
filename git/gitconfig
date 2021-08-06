@@ -5,6 +5,7 @@
     can = commit --amend --no-edit
     dup = !git checkout develop && git fetch origin && git sl develop..origin/develop && echo && git merge --quiet && git checkout -
     glog = log -E -i --grep
+    lb = switch -
     mup = !git checkout master && git fetch origin && git sl master..origin/master && echo && git merge --quiet && git checkout -
     pb = checkout -
     sl = log --oneline --graph
