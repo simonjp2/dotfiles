@@ -121,28 +121,8 @@ if !has('nvim')
     let &t_ZR="\e[23m"  " end italics mode
 endif
 
-" set termguicolors       " Enable 24-bit RGB color in TUI
-colorscheme nord-lsp
-" colorscheme dim
-if (colors_name ==? 'dim')
-    highlight GitGutterAdd ctermbg=none
-    highlight GitGutterChange ctermbg=none
-    highlight GitGutterDelete ctermbg=none
-    highlight GitGutterChangeDelete ctermbg=none
-    highlight SignColumn ctermbg=none
+colorscheme nord
 
-    highlight Difftext ctermbg=12
-
-    highlight Comment cterm=italic
-    highlight Special ctermfg=4
-    highlight SpecialComment ctermfg=4 cterm=italic
-
-    highlight link phpDocTags SpecialComment
-    highlight link phpDocParam SpecialComment
-    highlight link phpDocIdentifier SpecialComment
-endif
-
-nnoremap <C-A> :call <SID>SynStack()<CR>
 function! <SID>SynStack()
     if !exists("*synstack")
         return
