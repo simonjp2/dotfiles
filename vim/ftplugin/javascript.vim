@@ -63,3 +63,25 @@ function Angular_Format_Scope_Fn()
 endfunction
 nnoremap <buffer> <localleader>aff :call Angular_Format_Scope_Fn()<CR>
 let b:undo_ftplugin .= '|nunmap <buffer> <localleader>aff'
+
+function Angular_Generate_Factory_Fn(type, api_name, name, factory_fn)
+    execute "normal! i(function () {\<CR>})();\<ESC>O"
+    execute "normal! iangular\<CR>.module('app')\<CR>." . a:type . "('" . a:name . "', " . a:factory_fn . ");\<CR>\<CR>"
+    execute "normal! i" . a:factory_fn . ".$inject = [];\<CR>\<CR>"
+    execute "normal! ifunction " . a:factory_fn . "() {\<CR>}\<ESC>O"
+    execute "normal! ilet " . a:api_name . " = {\<CR>\<ESC>m1i\<CR>}\<CR>return " . a:api_name . ";"
+    execute "normal! gg=G"
+    execute "normal! `1"
+endfunction
+
+function Angular_Generate_Factory(name, factory_fn)
+    call Angular_Generate_Factory_Fn('factory', 'service', a:name, a:factory_fn)
+endfunction
+nnoremap <buffer> <localleader>agf :call Angular_Generate_Factory()<LEFT>
+let b:undo_ftplugin .= '|nunmap <buffer> <localleader>afg'
+
+function Angular_Generate_Directive(name, factory_fn)
+    call Angular_Generate_Factory_Fn('directive', 'directive', a:name, a:factory_fn)
+endfunction
+nnoremap <buffer> <localleader>agd :call Angular_Generate_Directive()<LEFT>
+let b:undo_ftplugin .= '|nunmap <buffer> <localleader>agd'
