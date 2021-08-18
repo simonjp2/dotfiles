@@ -44,8 +44,8 @@ let b:undo_ftplugin .='|setlocal wrap< textwidth< colorcolumn<'
 
 
 " ---  COMMON STUFF / HELPERS / SNIPPETS ---
-iabbrev puf public function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
-iabbrev pusf public static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
+iabbrev puf public function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
+iabbrev pusf public static function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
 " public (unrestricted) method snippet
 " nnoremap <buffer> <localleader>uf ipublic function ()<CR>{<CR><CR>}<esc>3k2Wi
 " inoremap <buffer> <localleader>uf public function ()<CR>{<CR><CR>}<esc>3k2Wi
@@ -60,8 +60,8 @@ iabbrev pusf public static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
 
 
 " private (restricted) method snippet
-iabbrev prf private function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
-iabbrev prsf private static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
+iabbrev prf private function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
+iabbrev prsf private static function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
 " nnoremap <buffer> <localleader>rf iprivate function ()<CR>{<CR><CR>}<esc>jk3k2Wi
 " inoremap <buffer> <localleader>rf private function ()<CR>{<CR><CR>}<esc>jk3k2Wi
 " let b:undo_ftplugin .= '|nunmap <buffer> <localleader>rf'
@@ -75,8 +75,8 @@ iabbrev prsf private static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
 
 
 " protected  method snippet
-iabbrev pf protected function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
-iabbrev psf protected static function NAME()<CR>{<CR><CR>}jj?NAME<CR>caw
+iabbrev pf protected function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
+iabbrev psf protected static function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
 
 " Class snippet
 nnoremap <buffer> <localleader>cl i<?php<CR><CR>declare(strict_types = 1);<CR><CR>class {2:ChildClass} extends {3:ParentClass} implements {4:Interface}<CR>{<CR>{5:body}<esc>^i	<esc>o}<esc>/\d:<CR>

@@ -258,8 +258,9 @@ nnoremap S i<CR><esc>k
 nnoremap j gj
 nnoremap k gk
 
-" Exit insert mode with jj instead of <esc>
-inoremap jj <esc>
+" Exit insert mode with jk/kj instead of <esc>
+inoremap jk <esc>
+inoremap kj <esc>
 inoremap <esc> <nop>
 
 " Quick access to Ex commands
