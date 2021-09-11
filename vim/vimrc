@@ -255,6 +255,9 @@ nnoremap <leader>b :b#<CR>
 
 nnoremap <leader>ke :50Vexplore! 
 
+nnoremap <leader>ws :mksession! *.workspace<C-D><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><LEFT><BS>
+nnoremap <leader>wl :source *.workspace<C-D><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS><BS>
+
 
 " --- Settings (s) keybindings ---
 
