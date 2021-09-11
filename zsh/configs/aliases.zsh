@@ -2,11 +2,12 @@ alias ~='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
 
+alias cp='cp -iv'
+alias d_code='cd ~/Documents/code/'
+alias grep='grep --color=auto -E'
 alias l='ls -lahFG'
 alias ll='ls -lhFG'
 alias rm='rm -iv'
-alias cp='cp -iv'
-alias grep='grep --color=auto -E'
 
 alias brewup='brew update && brew bundle'
 

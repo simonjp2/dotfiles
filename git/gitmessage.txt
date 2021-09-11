@@ -1,6 +1,6 @@
-# 50-character subject line
+# 80-character subject line
 # If applied, this commit will ...
-# [Add/Fix/Remove/Update/Refactor/Document] [issue #id] [summary]
+# [Feat/Fix/Docs/Style/Refactor/Test/Chore] [issue #id] [summary]
 
 
 # Why was this change necessary? (Bug fix, feature, improvements?)
