@@ -323,7 +323,3 @@ nnoremap <C-F> :SearchProject<SPACE>
 command! -nargs=0 Reload source $MYVIMRC
 
 
-if has('nvim')
-    lua require('lspconfig').intelephense.setup{on_attach=require'completion'.on_attach}
-    lua require('lspconfig').tsserver.setup{}
-endif

@@ -1,26 +1,23 @@
 " NVIM - lsp config
-
-if has('nvim')
-    Plug 'neovim/nvim-lspconfig'
-
-    nnoremap <leader>vd :lua vim.lsp.buf.definition()<CR>
-    nnoremap <leader>vh :lua vim.lsp.buf.hover()<CR>
-    nnoremap <leader>vi :lua vim.lsp.buf.implementation()<CR>
-    nnoremap <leader>vn :lua vim.lsp.diagnostic.goto_next()<CR>
-    nnoremap <leader>vr :lua vim.lsp.buf.references()<CR>
-    nnoremap <leader>vsd :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
-
-
-    Plug 'nvim-lua/completion-nvim'
-    set completeopt+=menuone		" Insert the longest commans substring
-    set completeopt+=noinsert		" Don't insert anything until I select it
-    set completeopt+=noselect		" Force me to select something
-    set completeopt-=preview		" Show extra info in preview window
-    let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-
-    " Only show completion popup when I ask for it
-    let g:completion_enable_auto_popup = 0
-    imap <silent> <localleader><Tab> <Plug>(completion_trigger)
+if !has('nvim')
+    finish
 endif
+
+Plug 'neovim/nvim-lspconfig'
+nnoremap <leader>vd :lua vim.lsp.buf.definition()<CR>
+nnoremap <leader>vh :lua vim.lsp.buf.hover()<CR>
+nnoremap <leader>vi :lua vim.lsp.buf.implementation()<CR>
+nnoremap <leader>vn :lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <leader>vr :lua vim.lsp.buf.references()<CR>
+nnoremap <leader>vsd :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+
+
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+set completeopt+=menuone		" Insert the longest commans substring
+set completeopt+=noinsert		" Don't insert anything until I select it
+set completeopt+=noselect		" Force me to select something
+set completeopt-=preview		" Don't Show extra info in preview window
 
 " vim:ft=vim
