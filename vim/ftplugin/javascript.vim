@@ -36,7 +36,8 @@ setlocal textwidth=80                       " Set textwidth
 setlocal colorcolumn=+1,120                 " Set colorcolumn for 81 and 120
 let b:undo_ftplugin ='|setlocal wrap< textwidth< colorcolumn<'
 
-
+setlocal omnifunc=v:lua.vim.lsp.omnifunc
+let b:undo_ftplugin ='|setlocal omnifunc<'
 
 " =============================================================================
 " KEY MAPPINGS
@@ -44,6 +45,11 @@ let b:undo_ftplugin ='|setlocal wrap< textwidth< colorcolumn<'
 " inoremap <buffer> <localleader><Tab> <C-X><C-N>
 " let b:undo_ftplugin .= '|iunmap <buffer> <localleader><Tab>'
 
+
+let s:function = '\(function\|\$scope\)'
+let s:section = '\(.*\%#\)\@!\_^\s*\zs\('.s:function.'\)'
+execute 'nnoremap <buffer> <silent> ]] /' . escape(s:section, '|') . '/<CR>:nohlsearch<CR>'
+execute 'nnoremap <buffer> <silent> [[ ?' . escape(s:section, '|') . '?<CR>:nohlsearch<CR>'
 
 
 
@@ -64,6 +70,34 @@ endfunction
 nnoremap <buffer> <localleader>aff :call Angular_Format_Scope_Fn()<CR>
 let b:undo_ftplugin .= '|nunmap <buffer> <localleader>aff'
 
+
+function s:CreateIIFE()
+    execute "normal! i(function () {\<CR>})();\<ESC>O"
+    execute "normal! i\<Tab>'use strict'\<CR>\<CR>\<ESC>"
+endfunction
+
+function AngularNewControllerTemplate()
+    normal! i(function() {})();Oangular.module([1:module_name]).controller([2:controller_name], [3:constructorFn]);[3:constructorFn].$inject = [];function [3:constructorFn]() {let model = this;}gg=G/[\d:
+endfunction
+
+function AngularGenerateDirective(module_name = 'app')
+    call s:CreateIIFE()
+    let directiveDefinition = [
+                \ "restrict: 'E'",
+                \ "scope: {}",
+                \ "templateUrl: [3:pathToTemplate]",
+                \ "controller: [4: controllerName]",
+                \ "controllerAs: '$ctrl'",
+                \ "bindToController: true",
+                \ ]
+
+    execute "normal! iangular\<CR>.module('" . a:module_name . "')\<CR>.directive('[1:directiveName]', [2:factoryFn]);\<CR>\<CR>"
+    execute "normal! i[2:factoryFn].$inject = [];\<CR>\<CR>"
+    execute "normal! ifunction [2:factoryFn] () {\<CR>return {\<CR>". join(l:directiveDefinition, ",\<CR>") . "\<CR>}\<CR>}"
+    execute "normal! gg=G"
+    execute "normal! /\\[\\d:.\\{-}\]\<CR>"
+endfunction
+
 function Angular_Generate_Factory_Fn(type, api_name, name, factory_fn)
     execute "normal! i(function () {\<CR>})();\<ESC>O"
     execute "normal! iangular\<CR>.module('app')\<CR>." . a:type . "('" . a:name . "', " . a:factory_fn . ");\<CR>\<CR>"
@@ -80,8 +114,5 @@ endfunction
 nnoremap <buffer> <localleader>agf :call Angular_Generate_Factory()<LEFT>
 let b:undo_ftplugin .= '|nunmap <buffer> <localleader>afg'
 
-function Angular_Generate_Directive(name, factory_fn)
-    call Angular_Generate_Factory_Fn('directive', 'directive', a:name, a:factory_fn)
-endfunction
-nnoremap <buffer> <localleader>agd :call Angular_Generate_Directive()<LEFT>
+nnoremap <buffer> <localleader>agd :call AngularGenerateDirective()<LEFT>
 let b:undo_ftplugin .= '|nunmap <buffer> <localleader>agd'
