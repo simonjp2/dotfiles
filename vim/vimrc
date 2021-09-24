@@ -8,7 +8,7 @@
 set nocompatible                " Disable vi compatibility
 
 " Use ',' as leader key
-let mapleader = ','
+let mapleader = ' '
 let maplocalleader='\'
 
 function! s:SourceConfigFilesIn(directory)
@@ -141,6 +141,7 @@ set display+=lastline
 set confirm                     " Prompt instead of rejecting risky operations
 set splitbelow                  " Split new window below
 set splitright                  " Split new window right
+let g:markdown_fenced_languages = ['bash=sh', 'javascript', 'js=javascript', 'php', 'html', 'css']
 
 " --- list chars ---
 " Define extra 'list' display characters
@@ -289,8 +290,8 @@ nnoremap <leader>sn :<C-U>setlocal number! relativenumber! number?<CR>
 
 " --- WINDOWS ---
 "  Zoom a vim window, <leader>= to re-balance
-nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
-nnoremap <leader>= :wincmd =<cr>
+nnoremap <silent> <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <silent> <leader>= :wincmd =<cr>
 
 " Automatically rebalance windows on vim resize
 augroup vimrc
@@ -312,10 +313,10 @@ endif
 nnoremap <leader>F :silent! grep! "\b\s?<C-R><C-W>\b"<CR>:botright cwindow<CR>
 
 " grep for pattern and open in 'quick fix' window
-command! -nargs=+ -complete=file -bar Ag silent grep! <args>|execute 'botright cwindow'|redraw!
+command! -nargs=+ -complete=file -bar SearchProject execute 'silent! grep!' .<q-args>.'| cwindow'
 
 " Start global project search
-nnoremap <C-F> :Ag<SPACE>
+nnoremap <C-F> :SearchProject<SPACE>
 
 
 " Reload config
