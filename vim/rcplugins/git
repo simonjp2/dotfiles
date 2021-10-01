@@ -15,4 +15,11 @@ command! -nargs=? Gsl :call Git_Short_Log(<args>)
 nnoremap <leader>gsl :Gsl<CR>
 
 
+
+
+" Git Gutter - show diff markings in sign column
+" Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
+
+
 " vim:ft=vim
