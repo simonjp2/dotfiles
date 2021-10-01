@@ -171,6 +171,7 @@ endif
 " --- file list ---
 let g:netrw_liststyle=0         " view directory one file per line; use i to cycle views
 let g:netrw_banner=0            " remove the directory banner; use I to toggle banner
+let g:netrw_altv=0              " open vertical splits to left
 
 " --- diff ---
 set diffopt+=iwhite             " Ignore whitespace changes
