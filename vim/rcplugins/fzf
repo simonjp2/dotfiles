@@ -1,5 +1,7 @@
 " fzf - the fuzzy finder of all things
 
+finish
+
 Plug 'junegunn/fzf', {'do': {->fzf#install()}}
 let g:fzf_layout = {'down': '60%'}
 
