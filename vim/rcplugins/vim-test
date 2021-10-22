@@ -1,6 +1,24 @@
 " vim-test - Run your tests at the speed of thought
+" :help test
 
 Plug 'janko-m/vim-test'
 let test#strategy = "vtr"
+
+nnoremap <silent> <leader>tn :TestNearest<CR>
+nnoremap <silent> <leader>tf :TestFile<CR>
+nnoremap <silent> <leader>ts :TestSuite<CR>
+nnoremap <silent> <leader>tl :TestLast<CR>
+nnoremap <silent> <leader>tv :TestVisit<CR>
+nnoremap <silent> <leader>td :TestDirectory %:p:h<CR>
+
+" I someimes like to run all tests in the curent directory
+function s:TestDirectory(args = '')
+    let l:options = split(a:args)
+    if (len(l:options))
+        let l:options = ['--test-directory'] + l:options
+    endif
+    call test#run('suite', l:options)
+endfunction
+command! -nargs=? -complete=dir TestDirectory call <SID>TestDirectory(<f-args>)
 
 " vim:ft=vim

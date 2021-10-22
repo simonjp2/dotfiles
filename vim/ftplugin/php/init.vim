@@ -7,6 +7,8 @@ if exists('b:did_ftplugin')
     finish
 endif
 
+let s:keepcpo= &cpo
+set cpo&vim
 
 " =============================================================================
 " Options
@@ -46,32 +48,10 @@ let b:undo_ftplugin .='|setlocal wrap< textwidth< colorcolumn<'
 " ---  COMMON STUFF / HELPERS / SNIPPETS ---
 inoreabbrev puf public function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
 inoreabbrev pusf public static function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
-" public (unrestricted) method snippet
-" nnoremap <buffer> <localleader>uf ipublic function ()<CR>{<CR><CR>}<esc>3k2Wi
-" inoremap <buffer> <localleader>uf public function ()<CR>{<CR><CR>}<esc>3k2Wi
-" let b:undo_ftplugin .= '|nunmap <buffer> <localleader>uf'
-"             \ . '|iunmap <buffer> <localleader>uf'
-
-" public (unrestricted) static method snippet
-" nnoremap <buffer> <localleader>usf ipublic static function ()<CR>{<CR><CR>}<esc>3k3Wi
-" inoremap <buffer> <localleader>usf public static function ()<CR>{<CR><CR>}<esc>3k3Wi
-" let b:undo_ftplugin .= '|nunmap <buffer> <localleader>usf'
-"             \ . '|iunmap <buffer> <localleader>usf'
-
 
 " private (restricted) method snippet
 inoreabbrev prf private function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
 inoreabbrev prsf private static function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
-" nnoremap <buffer> <localleader>rf iprivate function ()<CR>{<CR><CR>}<esc>jk3k2Wi
-" inoremap <buffer> <localleader>rf private function ()<CR>{<CR><CR>}<esc>jk3k2Wi
-" let b:undo_ftplugin .= '|nunmap <buffer> <localleader>rf'
-"             \ . '|iunmap <buffer> <localleader>rf'
-
-" private (restricted) static method snippet
-" nnoremap <buffer> <localleader>rsf iprivate static function ()<CR>{<CR><CR>}<esc>jk3k3Wi
-" inoremap <buffer> <localleader>rsf private static function ()<CR>{<CR><CR>}<esc>jk3k3Wi
-" let b:undo_ftplugin .= '|nunmap <buffer> <localleader>rsf'
-"             \ . '|iunmap <buffer> <localleader>rsf'
 
 
 " protected  method snippet
@@ -80,19 +60,16 @@ inoreabbrev psf protected static function NAME()<CR>{<CR><CR>}<ESC>?NAME<CR>caw
 
 " Class snippet
 nnoremap <buffer> <localleader>cl i<?php<CR><CR>declare(strict_types = 1);<CR><CR>class {2:ChildClass} extends {3:ParentClass} implements {4:Interface}<CR>{<CR>{5:body}<esc>^i	<esc>o}<esc>/\d:<CR>
-let b:undo_ftplugin .= '|nunmap <buffer> <localleader>cl'
 
-
-" Test snippet
-nnoremap <buffer> <localleader>tc i<?php<CR><CR>declare(strict_types = 1);<CR><CR>namespace Tests\{1:name_space}<CR><CR>use PHPUnit\Framework\TestCase;<CR><CR>final class {2:ClassName} extends TestCase<CR>{<CR>/**<CR>@test<CR>/<esc>V2k=2jopublic function true_is_true()<CR>{<CR>$this->assertTrue(true);<CR>}<CR>}<esc>/\d:<CR>
-let b:undo_ftplugin .= '|nunmap <buffer> <localleader>tc'
-
-nnoremap <buffer> <localleader>tf o/**<CR>@test<CR>/<esc>V2k=2jopublic function ()<CR>{<CR><CR>}<esc>3kf(i
-inoremap <buffer> <localleader>tf /**<CR>@test<CR>/<esc>V2k=2jopublic function ()<CR>{<CR><CR>}<esc>3kf(i
-let b:undo_ftplugin .= '|nunmap <buffer> <localleader>tf'
-            \ . '|iunmap <buffer> <localleader>tf'
-
+let s:test_function = '\(test\|it\|beforeAll\|afterAll\|beforeEach\|afterEach\|uses\)'
+let s:section = '\(.*\%#\)\@!\_^\s*\zs\('.s:test_function.'\)'
+execute 'nnoremap <buffer> <silent> <localleader>tt /' . escape(s:section, '|') . '/<CR>:nohlsearch<CR>'
+execute 'nnoremap <buffer> <silent> <localleader>tr ?' . escape(s:section, '|') . '?<CR>:nohlsearch<CR>'
 
 function FileAction_NameClass()
     execute "normal! ca{\<C-R>=expand('%:t:r')\<cr>\<esc>b"
 endfunction
+
+
+let &cpo = s:keepcpo
+unlet s:keepcpo
