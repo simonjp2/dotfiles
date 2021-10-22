@@ -15,9 +15,6 @@ nnoremap <leader>vsd :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
-set completeopt+=menuone		" Insert the longest commans substring
-set completeopt+=noinsert		" Don't insert anything until I select it
-set completeopt+=noselect		" Force me to select something
-set completeopt-=preview		" Don't Show extra info in preview window
+Plug 'hrsh7th/cmp-nvim-lua'
 
 " vim:ft=vim
