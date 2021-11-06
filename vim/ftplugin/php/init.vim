@@ -10,6 +10,13 @@ endif
 let s:keepcpo= &cpo
 set cpo&vim
 
+"let php_sql_query = 1 " SQL syntax highlighting inside strings
+let php_noShortTags = 1
+let g:PHP_removeCRwhenUnix = 1
+let g:PHP_noArrowMatching = 1
+" let g:PHP_IndentFunctionCallParameters = 1
+" let g:PHP_IndentFunctionDeclaratoinParameters = 1
+
 " =============================================================================
 " Options
 " =============================================================================
@@ -20,14 +27,6 @@ setlocal suffixesadd+=.php
 setlocal iskeyword+=$
 let b:undo_ftplugin = '|setlocal comments< list< suffixesadd< iskeyword<'
 
-set shiftround
-set noexpandtab           " Use tabs
-set shiftwidth=4        " Indent with 4 spaces
-set softtabstop=4       " Insert 4 spaces with tab key
-set tabstop=4
-set smarttab            " At start of line <TAB> inserts shift width spaces,
-                        " <BS> deletes shift width spaces
-let b:undo_ftplugin .= '|setlocal shiftround< noexpandtab< shiftwidth< softtabstop< tabstop< smarttab<'
 
 " =============================================================================
 " INDENTATION AND TEXT-WRAP

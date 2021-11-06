@@ -1,5 +1,5 @@
 " =============================================================================
-" Jason Simon javascript settings
+" Jason Simon html settings
 " =============================================================================
 
 " Only do this when not yet done for this buffer
@@ -14,7 +14,7 @@ endif
 " =============================================================================
 
 set shiftround
-set expandtab           " Use tabs
+set expandtab           " Use spaces
 set shiftwidth=4        " Indent with 4 spaces
 set softtabstop=4       " Insert 4 spaces with tab key
 set tabstop=4
