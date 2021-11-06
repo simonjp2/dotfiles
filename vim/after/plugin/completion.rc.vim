@@ -19,6 +19,8 @@ cmp.setup {
         ['<C-f>'] = cmp.mapping.scroll_docs(-4),
         ['<C-e>'] = cmp.mapping.close(),
         ['<C-d>'] = cmp.mapping.scroll_docs(4),
+        -- Emmet uses <C-y>
+        ['<C-y>'] = cmp.config.disable, 
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<cr>'] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Insert,
