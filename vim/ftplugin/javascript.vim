@@ -78,7 +78,7 @@ function Angular_Generate_Factory(name, factory_fn)
     call Angular_Generate_Factory_Fn('factory', 'service', a:name, a:factory_fn)
 endfunction
 nnoremap <buffer> <localleader>agf :call Angular_Generate_Factory()<LEFT>
-let b:undo_ftplugin .= '|nunmap <buffer> <localleader>afg'
+let b:undo_ftplugin .= '|nunmap <buffer> <localleader>agf'
 
 function Angular_Generate_Directive(name, factory_fn)
     call Angular_Generate_Factory_Fn('directive', 'directive', a:name, a:factory_fn)

@@ -125,6 +125,15 @@ function finishBranch {
             ;;
         feature)
             echo "finish feature branch ${branch_name}"
+            echo "g switch develop"
+            echo "g merge --no-ff feature/${branch_name}"
+            echo "g branch -d feature/${branch_name}"
+            echo "g push"
+            echo 
+            echo "If ready to release:"
+            echo "g switch master"
+            echo "g merge develop --no-ff"
+            echo "g push"
             ;;
         *)
             printf "%bUnknown branch type \"%b\".${__uncolor}\n\n" "${__red}" "${branch_type}"
